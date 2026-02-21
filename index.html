@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>HSK3 Bab 17 · 谁都有办法看好你的“病”</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        body {
+            font-family: 'Comic Neue', 'Segoe UI', '微软雅黑', cursive, sans-serif;
+            background: linear-gradient(145deg, #f9e7b3 0%, #f5d0a9 100%);
+            min-height: 100vh;
+            padding: 15px;
+            color: #3e2a1f;
+            -webkit-touch-callout: none;
+        }
+        input, textarea {
+            user-select: text;
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+        }
+        #identityOverlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        .identity-card {
+            background: #ffd966;
+            padding: 40px;
+            border-radius: 80px;
+            border: 8px solid #e67e22;
+            box-shadow: 0 20px 0 #b86f2c;
+            text-align: center;
+            max-width: 90%;
+            width: 500px;
+        }
+        .identity-card h2 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-shadow: 3px 3px 0 #f1c40f;
+        }
+        .identity-card input {
+            width: 100%;
+            padding: 20px;
+            font-size: 2rem;
+            border-radius: 60px;
+            border: 5px solid #e67e22;
+            background: #fff7e0;
+            text-align: center;
+            font-family: inherit;
+            margin-bottom: 30px;
+        }
+        .identity-card button {
+            background: #e67e22;
+            border: none;
+            color: white;
+            font-size: 2.2rem;
+            padding: 15px 50px;
+            border-radius: 60px;
+            font-weight: bold;
+            border-bottom: 8px solid #b86f2c;
+            cursor: pointer;
+        }
+        .identity-card button:active {
+            border-bottom-width: 3px;
+            transform: translateY(5px);
+        }
+        .header {
+            background: #ffd966;
+            padding: 15px 25px;
+            border-radius: 60px 60px 20px 20px;
+            box-shadow: 0 10px 0 #b86f2c, 0 8px 15px rgba(0,0,0,0.2);
+            margin-bottom: 25px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            border: 4px solid #f1c40f;
+            background-image: repeating-linear-gradient(45deg, #ffe28a 0px, #ffe28a 10px, #ffd966 10px, #ffd966 20px);
+        }
+        .header h1 {
+            font-size: 2rem;
+            text-shadow: 3px 3px 0 #b86f2c;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .header h1 span:last-child {
+            font-size: 1.2rem;
+            background: #2c3e50;
+            color: #f1c40f;
+            padding: 5px 15px;
+            border-radius: 40px;
+            border: 2px solid #e67e22;
+        }
+        .timer {
+            background: #2c3e50;
+            color: #f1c40f;
+            font-size: 2.2rem;
+            font-weight: bold;
+            padding: 10px 25px;
+            border-radius: 50px;
+            border: 4px solid #e67e22;
+            box-shadow: inset 0 -3px 0 #1a2632, 0 8px 0 #9b5e1e;
+            font-family: 'Courier New', monospace;
+        }
+        .tab-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 18px 0;
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: #f39c12;
+            color: #2c3e50;
+            border-radius: 40px 40px 0 0;
+            border: 4px solid #d35400;
+            border-bottom: none;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 -5px 0 #b86f2c;
+            text-shadow: 2px 2px 0 #f1c40f;
+        }
+        .tab.active {
+            background: #f1c40f;
+            transform: scale(1.02);
+            border-color: #e67e22;
+            box-shadow: 0 -8px 0 #b86f2c;
+        }
+        .content-panel {
+            background: rgba(255, 250, 210, 0.9);
+            border: 5px solid #e67e22;
+            border-radius: 30px 30px 30px 30px;
+            padding: 25px 15px;
+            box-shadow: 0 15px 0 #b86f2c, inset 0 2px 15px #ffeeaa;
+            backdrop-filter: blur(2px);
+            margin-bottom: 20px;
+        }
+        .soal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+        .soal-card {
+            background: #feebc0;
+            border: 4px solid #e67e22;
+            border-radius: 35px;
+            padding: 20px 15px;
+            box-shadow: 0 8px 0 #b86f2c, 0 5px 10px rgba(0,0,0,0.2);
+            transition: 0.1s ease;
+            position: relative;
+        }
+        .soal-nomor {
+            background: #e67e22;
+            color: white;
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border: 3px solid #f1c40f;
+            box-shadow: inset 0 -3px 0 #a0531a;
+        }
+        .soal-text {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            background: #fff2d7;
+            padding: 12px;
+            border-radius: 25px;
+            border: 2px dashed #e67e22;
+        }
+        .btn-play {
+            background: #2ecc71;
+            border: none;
+            color: white;
+            font-size: 1.3rem;
+            padding: 8px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            margin: 10px 0;
+            font-weight: bold;
+            border-bottom: 5px solid #1e8b4c;
+            transition: 0.05s linear;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
+        .btn-play:active {
+            border-bottom-width: 2px;
+            transform: translateY(3px);
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .option-item {
+            background: #fef9e7;
+            border: 3px solid #d35400;
+            border-radius: 50px;
+            padding: 10px 15px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .option-item.selected {
+            background: #f1c40f;
+            border-color: #c0392b;
+            box-shadow: 0 0 0 3px #f39c12;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+            accent-color: #e67e22;
+            pointer-events: none;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            border-radius: 50px;
+            border: 3px solid #d35400;
+            font-size: 1.2rem;
+            background: #fffcf0;
+            font-family: 'Comic Neue', '微软雅黑', cursive;
+        }
+        .btn-submit {
+            background: #e67e22;
+            color: white;
+            font-size: 2.2rem;
+            font-weight: bold;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 80px;
+            cursor: pointer;
+            margin: 20px auto 10px;
+            display: block;
+            border-bottom: 8px solid #b86f2c;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transition: 0.05s linear;
+            width: fit-content;
+        }
+        .btn-submit:active {
+            border-bottom-width: 3px;
+            transform: translateY(5px);
+        }
+        .laporan {
+            background: #2c3e50;
+            color: #f1c40f;
+            padding: 25px;
+            border-radius: 50px;
+            margin-top: 30px;
+            border: 6px solid #e67e22;
+            font-size: 1.6rem;
+        }
+        .btn-review {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1.4rem;
+            margin: 10px;
+            border-bottom: 5px solid #1f5a8a;
+            cursor: pointer;
+        }
+        .wrong-highlight {
+            border: 6px solid #e74c3c !important;
+            background: #fadbd8 !important;
+        }
+        .correct-highlight {
+            border: 6px solid #2ecc71 !important;
+            background: #d5f5e3 !important;
+        }
+        .footer {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        @media (max-width: 700px) {
+            .header { flex-direction: column; text-align: center; }
+            .timer { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body translate="no" oncontextmenu="return false;" oncopy="return false;" oncut="return false;" onpaste="return false;">
+
+<div id="identityOverlay">
+    <div class="identity-card">
+        <h2>⚔️ 请输入您的名字 ⚔️</h2>
+        <input type="text" id="userNameInput" placeholder="您的名字" autocomplete="off">
+        <button onclick="startApp()">开始练习</button>
+    </div>
+</div>
+
+<div class="header">
+    <h1>
+        <span>⚡ HSK3 第十七课</span>
+        <span>by lcnpalembang-08994477998</span>
+    </h1>
+    <div class="timer" id="timerDisplay">40:00</div>
+</div>
+
+<div class="tab-container">
+    <div class="tab active" id="tabListening" onclick="switchTab('listening')">🎧 听力</div>
+    <div class="tab" id="tabReading" onclick="switchTab('reading')">📖 阅读</div>
+</div>
+
+<div id="listeningPanel" class="content-panel"></div>
+<div id="readingPanel" class="content-panel" style="display: none;"></div>
+
+<button class="btn-submit" id="submitBtn" onclick="submitAll()">✨ 提交答案 ✨</button>
+
+<div id="laporanArea" class="laporan" style="display: none;"></div>
+
+<script>
+    (function() {
+        // NONAKTIFKAN GOOGLE TRANSLATE DENGAN ATRIBUT
+        let userName = '';
+
+        // Data kunci jawaban (asli, berdasarkan nomor soal)
+        const listeningJawaban = {
+            1:'E',2:'F',3:'A',4:'B',5:'C',
+            6:'对',7:'错',8:'对',9:'错',10:'错',
+            11:'C',12:'A',13:'C',14:'C',15:'B',
+            16:'A',17:'C',18:'C',19:'C',20:'B'
+        };
+
+        const readingJawaban = {
+            21:'C',22:'D',23:'B',24:'F',25:'A',
+            26:'C',27:'D',28:'B',29:'F',30:'A',
+            31:'B',32:'A',33:'C',34:'C',35:'A',
+            36:'弟弟高兴得跳了起来',37:'小狗的眼睛大大的',38:'明天天气好我们就去公园玩儿',39:'我的腿疼得不能走路',40:'水果店的西瓜甜甜的',
+            41:'城',42:'皮',43:'鼻',44:'检',45:'牙',
+            46:'米',47:'如',48:'近',49:'查',50:'冒'
+        };
+
+        const normalisasiKalimat = (s) => s.replace(/\s+/g, '').replace(/[，。！？、]/g, '');
+
+        // Opsi dalam Mandarin untuk listening (tetap, tidak diacak)
+        const opsiMandarin = {
+            1: ['A: 早餐只喝咖啡吃蛋糕', 'B: 邻居互相介绍', 'C: 孩子们玩雪', 'D: 打电话', 'E: 男的想瘦少吃', 'F: 跑步后腿疼'],
+            2: ['A: 早餐只喝咖啡吃蛋糕', 'B: 邻居互相介绍', 'C: 孩子们玩雪', 'D: 打电话', 'E: 男的想瘦少吃', 'F: 跑步后腿疼'],
+            3: ['A: 早餐只喝咖啡吃蛋糕', 'B: 邻居互相介绍', 'C: 孩子们玩雪', 'D: 打电话', 'E: 男的想瘦少吃', 'F: 跑步后腿疼'],
+            4: ['A: 早餐只喝咖啡吃蛋糕', 'B: 邻居互相介绍', 'C: 孩子们玩雪', 'D: 打电话', 'E: 男的想瘦少吃', 'F: 跑步后腿疼'],
+            5: ['A: 早餐只喝咖啡吃蛋糕', 'B: 邻居互相介绍', 'C: 孩子们玩雪', 'D: 打电话', 'E: 男的想瘦少吃', 'F: 跑步后腿疼'],
+            11: ['A: 两瓶牛奶', 'B: 一条鱼', 'C: 什么都没买'],
+            12: ['A: 口渴', 'B: 什么都不想喝', 'C: 不想喝冰水'],
+            13: ['A: 国外', 'B: 很多城市', 'C: 什么地方都没去'],
+            14: ['A: 觉得考试不容易', 'B: 写得很慢', 'C: 题都检查过了'],
+            15: ['A: 经理和秘书', 'B: 医生和病人', 'C: 丈夫和妻子'],
+            16: ['A: 经常不来上课', 'B: 什么都听得懂', 'C: 没请过假'],
+            17: ['A: 天气很好', 'B: 喜欢新闻', 'C: 准备考试'],
+            18: ['A: 想去饭馆吃', 'B: 不想吃牛肉', 'C: 什么都喜欢吃'],
+            19: ['A: 喜欢那里的冬天', 'B: 不喜欢那里的学习环境', 'C: 不习惯那里的天气'],
+            20: ['A: 坐着上课', 'B: 是老师', 'C: 什么地方都想去']
+        };
+
+        // Data teks listening untuk speech
+        const listeningScript = {
+            1: "女：你的早饭只有一杯咖啡和一小块蛋糕，吃不饱。要不要再来一个鸡蛋或者水果？男：没办法，为了瘦一点儿，我必须少吃。",
+            2: "男：雪下得真大，谁都没想到今年冬天能下这么大的雪。女：是啊，你看孩子们玩儿得多高兴。",
+            3: "男1：经理，下个星期我想请三天假，可以吗？男2：这个月你已经请了两个星期假了，不能再请了。",
+            4: "男：你们好，我是你们的新邻居，昨天刚搬过来。这是我妻子。女：欢迎你们！这是我丈夫。我们在这儿住了五年了，对这儿很了解，以后有什么问题都可以来找我们。",
+            5: "女：玩儿了这么长时间，我渴了，我先喝点儿水。你不渴吗？男：我不渴，你喝吧，我等会儿你。喝完了我们去前边玩儿。",
+            6: "明天早上请大家8点以前到公司会议室，做好开会的准备。明天的会议非常重要，谁都不能迟到，也不能请假。",
+            7: "为了方便大家，楼下新开了一家药店，24小时不休息，什么时候去都能买到药，几点去都有人工作。",
+            8: "我们在生活中遇到问题时，不能什么事情都请别人帮忙，因为有些事情必须要自己来做选择和决定。",
+            9: "学校这个学期要举行一次汉字比赛，比赛是根据要求写汉字，一共写100个，谁有兴趣都可以参加。",
+            10: "大家好，这个学期我们班新来了2个同学，一共21个学生。现在，请新同学给大家介绍介绍自己，大家欢迎。",
+            11: "男：你不是去超市吗？怎么什么都没买？女：我在超市里拿了两瓶牛奶，三个面包，还拿了条鱼。后来发现没带钱包，只好都放回去了。",
+            12: "女：走了这么长时间，渴了吧？快坐下来休息休息，你想喝点儿什么？男：喝什么都行，先来杯冰水，然后再看看这儿有什么好喝的饮料。",
+            13: "男：听说你和丈夫去旅游了？去了哪些地方？怎么样？女：我们打算坐飞机去国外，找个安静的城市，好好休息休息，后来儿子生病了，为了照顾他，哪儿都没去。",
+            14: "女：冬冬，你怎么这么快就考完了？做完题应该检查检查，看看有没有写错的字。男：我已经检查过了，今天的考试题特别简单，所以很快就做完了。",
+            15: "男：我昨天跑完步以后就一直腿疼，请您帮我检查检查，看看用不用吃点儿药。女：你太久没运动了，所以腿疼。以后多出去运动运动，不用吃药。",
+            16: "男：老师，我可以请几天假吗？女：小雨，你看看，这个学期你都请了几次假了？男：老师，对不起，上个月是我妈妈来北京，我带她在中国旅游，然后是我姐姐来，前几天是我病了，下个星期我女朋友要来看我。女：小雨，如果你再不来上课，就什么都听不懂了。",
+            17: "女：你在听新闻？太阳从西边出来了？男：我对新闻没兴趣，主要是想提高提高我的汉语水平。女：你一个学期都没认真学习了，现在才开始努力？男：明天就要考试了，我要复习复习。",
+            18: "女：我有点儿饿了，我们出去找个人少点儿的饭馆吃饭吧。男：这个时间，哪个饭馆人都多，我们在家吃吧，自己做。女：好，家里有鱼，有鸡蛋，还有牛肉。牛肉你想怎么吃？跟鸡蛋一起做还是跟别的菜一起做？男：怎么做都行，我什么都爱吃。需要我帮忙吗？",
+            19: "女：你在国外留学这几年怎么样？那里的生活习惯了吗？男：那个地方的人很热情，学习环境也不错，学校里有两个图书馆。但是天气我还不太习惯。女：怎么？那儿的天气跟我们这儿不一样吗？男：冬天特别长，从11月到第二年3月都比较冷。下大雪的时候，哪儿都不能去，只能在房间里看书。",
+            20: "男：你在椅子上坐了一个多小时了，一句话都不说，怎么了？女：我上了一天课，给学生讲中国历史，现在什么都不想说。男：那你先休息休息，一会儿我带你出去吃饭。女：我现在哪儿都不想去，就想在家睡觉。我们晚点儿再吃饭吧。"
+        };
+
+        // State jawaban user
+        let userAnswers = {};
+        let timeLeft = 2400; // 40 menit
+        let timerInterval;
+
+        // Acak urutan per part
+        let listeningOrder = {
+            part1: [], // 1-5
+            part2: [], // 6-10
+            part3: [], // 11-15
+            part4: []  // 16-20
+        };
+        let readingOrder = {
+            part1: [], // 21-25
+            part2: [], // 26-30
+            part3: [], // 31-35
+            part4: []  // 36-50
+        };
+
+        // Fungsi pengacak
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        // Inisialisasi urutan acak
+        function initShuffledOrders() {
+            // Listening
+            listeningOrder.part1 = shuffleArray([1,2,3,4,5]);
+            listeningOrder.part2 = shuffleArray([6,7,8,9,10]);
+            listeningOrder.part3 = shuffleArray([11,12,13,14,15]);
+            listeningOrder.part4 = shuffleArray([16,17,18,19,20]);
+            // Reading
+            readingOrder.part1 = shuffleArray([21,22,23,24,25]);
+            readingOrder.part2 = shuffleArray([26,27,28,29,30]);
+            readingOrder.part3 = shuffleArray([31,32,33,34,35]);
+            readingOrder.part4 = shuffleArray([36,37,38,39,40,41,42,43,44,45,46,47,48,49,50]);
+        }
+
+        // Render listening sesuai urutan acak
+        function renderListening() {
+            const container = document.getElementById('listeningPanel');
+            let html = '<div class="soal-grid">';
+            // Gabungkan semua part berurutan sesuai urutan part (part1 dulu, part2, dll)
+            const allParts = [listeningOrder.part1, listeningOrder.part2, listeningOrder.part3, listeningOrder.part4];
+            for (let part of allParts) {
+                for (let i of part) {
+                    let optionsHtml = '';
+                    if (i <= 5) {
+                        let arr = opsiMandarin[i] || ['A','B','C','D','E','F'];
+                        for (let idx = 0; idx < arr.length; idx++) {
+                            let val = String.fromCharCode(65 + idx);
+                            optionsHtml += `<div class="option-item" onclick="selectOption(${i}, '${val}')">
+                                <input type="radio" name="q${i}" value="${val}" ${userAnswers[i] === val ? 'checked' : ''}> ${arr[idx]}
+                            </div>`;
+                        }
+                    } else if (i >= 6 && i <= 10) {
+                        optionsHtml = `
+                            <div class="option-item" onclick="selectOption(${i}, '对')"><input type="radio" name="q${i}" value="对" ${userAnswers[i] === '对' ? 'checked' : ''}> ✅ 对</div>
+                            <div class="option-item" onclick="selectOption(${i}, '错')"><input type="radio" name="q${i}" value="错" ${userAnswers[i] === '错' ? 'checked' : ''}> ❌ 错</div>
+                        `;
+                    } else {
+                        let arr = opsiMandarin[i] || ['A','B','C'];
+                        optionsHtml = arr.map((text, idx) => {
+                            let val = String.fromCharCode(65 + idx);
+                            return `<div class="option-item" onclick="selectOption(${i}, '${val}')">
+                                <input type="radio" name="q${i}" value="${val}" ${userAnswers[i] === val ? 'checked' : ''}> ${text}
+                            </div>`;
+                        }).join('');
+                    }
+
+                    html += `<div class="soal-card" id="soal-${i}">
+                        <div class="soal-nomor">🎧 ${i}</div>
+                        <button class="btn-play" onclick="playListening(${i})">🔊 播放</button>
+                        <div class="options">${optionsHtml}</div>
+                    </div>`;
+                }
+            }
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // Render reading sesuai urutan acak
+        function renderReading() {
+            const container = document.getElementById('readingPanel');
+            let html = '<div class="soal-grid">';
+            const allParts = [readingOrder.part1, readingOrder.part2, readingOrder.part3, readingOrder.part4];
+            for (let part of allParts) {
+                for (let i of part) {
+                    let questionText = getReadingQuestionText(i);
+                    let optionsHtml = '';
+
+                    if (i >= 21 && i <= 25) {
+                        let arr = [
+                            'A 你的鼻子红红的？怎么了？',
+                            'B 我的牙有点儿疼，您帮我看看吧。',
+                            'C 不到200米了，我们要不要先休息一下？',
+                            'D 我们给小方的孩子买皮鞋还是买帽子？',
+                            'E 当然。我们先坐公共汽车，然后换地铁。',
+                            'F 他是我们学校的校长，姓周。'
+                        ];
+                        optionsHtml = arr.map((txt, idx) => {
+                            let val = String.fromCharCode(65 + idx);
+                            return `<div class="option-item" onclick="selectOption(${i}, '${val}')">
+                                <input type="radio" name="q${i}" value="${val}" ${userAnswers[i] === val ? 'checked' : ''}> ${txt}
+                            </div>`;
+                        }).join('');
+                    } else if (i >= 26 && i <= 30) {
+                        let arr = ['A城市','B头发','C鼻子','D认为','E声音','F关系'];
+                        optionsHtml = arr.map((txt, idx) => {
+                            let val = String.fromCharCode(65 + idx);
+                            return `<div class="option-item" onclick="selectOption(${i}, '${val}')">
+                                <input type="radio" name="q${i}" value="${val}" ${userAnswers[i] === val ? 'checked' : ''}> ${txt}
+                            </div>`;
+                        }).join('');
+                    } else if (i >= 31 && i <= 35) {
+                        let arr = (i === 31) ? ['A 不太重要','B 应该每年一次','C 没病的人不用体检'] :
+                                  (i === 32) ? ['A 告诉大家','B 告诉饭店','C 来这儿工作'] :
+                                  (i === 33) ? ['A 没见过雪','B 每天都能看到雪','C 喜欢雪'] :
+                                  (i === 34) ? ['A 刷牙的时间越长越好','B 每天刷两次牙就可以','C 每年都要去医院检查牙'] :
+                                  ['A 工作特别忙','B 不喜欢说话','C 下个月搬家'];
+                        optionsHtml = arr.map((txt, idx) => {
+                            let val = String.fromCharCode(65 + idx);
+                            return `<div class="option-item" onclick="selectOption(${i}, '${val}')">
+                                <input type="radio" name="q${i}" value="${val}" ${userAnswers[i] === val ? 'checked' : ''}> ${txt}
+                            </div>`;
+                        }).join('');
+                    } else if (i >= 36 && i <= 40) {
+                        optionsHtml = `<input type="text" placeholder="写句子..." value="${userAnswers[i] || ''}" onchange="userAnswers[${i}] = this.value">`;
+                    } else if (i >= 41 && i <= 45) {
+                        optionsHtml = `<input type="text" placeholder="写汉字..." value="${userAnswers[i] || ''}" onchange="userAnswers[${i}] = this.value">`;
+                    } else if (i >= 46 && i <= 50) {
+                        let opts = (i === 46) ? ['米','来'] : (i === 47) ? ['姐','如'] : (i === 48) ? ['斤','近'] : (i === 49) ? ['查','香'] : ['帽','冒'];
+                        optionsHtml = opts.map(val => 
+                            `<div class="option-item" onclick="selectOption(${i}, '${val}')">
+                                <input type="radio" name="q${i}" value="${val}" ${userAnswers[i] === val ? 'checked' : ''}> ${val}
+                            </div>`
+                        ).join('');
+                    }
+
+                    html += `<div class="soal-card" id="soal-${i}">
+                        <div class="soal-nomor">📖 ${i}</div>
+                        <div class="soal-text">${questionText}</div>
+                        <div class="options">${optionsHtml}</div>
+                    </div>`;
+                }
+            }
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        function getReadingQuestionText(i) {
+            const texts = {
+                21: '还有多远？我累得一步也不想走了。',
+                22: '她儿子只有两个月大，不用穿皮鞋，买个小帽子吧。',
+                23: '好，你坐这边吧，我给你检查一下。',
+                24: '前边那个高高的、瘦瘦的老人是谁？',
+                25: '没事，可能是外边太冷了，还刮大风。',
+                26: '我感冒了，（ ）不舒服。',
+                27: '我（ ）现在上网看新闻比以前方便多了。',
+                28: '今天洗澡的时候我发现我的（ ）长了不少。',
+                29: 'A：我看你和新来的小丽每天下班都一起走。B：是，我们以前就是同学，（ ）一直很好。',
+                30: 'A：最近工作太累了，我真想好好儿休息一下。B：那你去别的（ ）玩儿玩儿吧。',
+                31: '关于体检，可以知道什么？',
+                32: '如果认为这家饭店的饭菜不错，我们可以：',
+                33: '★我：',
+                34: '根据这段话，可以知道什么？',
+                35: '★我丈夫:',
+                36: '跳 起来 高兴 弟弟 得了',
+                37: '大 大 小狗 的 的 眼睛',
+                38: '玩儿 天气 就 我们 明天 公园 去 好',
+                39: '走路 不能 疼 腿 得 我的',
+                40: '甜 的 甜 水果店 的 西瓜',
+                41: '这个 ( ) 市的街道非常干净, 路边有很多树。 (chéng)',
+                42: '妻子知道我明天参加面试, 为我买了一双新 ( ) 鞋。 (pi)',
+                43: '弟弟的眼睛大大的，（ ）子高高的，可爱极了。',
+                44: '爷爷已经80岁了，每年都要去做一次健康（ ）查。 (jiǎn)',
+                45: '你吃了那么多甜东西，快去把（ ）刷干净。 (yá)',
+                46: '小丽每天早上都要先去公园跑两千 ，再 公司上班。（米、来）',
+                47: '周秘书， 果白小 回来了，请你让她给我打个电话。（姐、如）',
+                48: '这儿附 有个超市，我们进去买几 水果吧。（斤、近）',
+                49: '医生检 完我的牙后，让我少吃些 蕉、蛋糕这样甜的东西。（查、香）',
+                50: '天气越来越冷，我怕你感 ，所以给你买了个 子。（帽、冒）'
+            };
+            return texts[i] || `问题 ${i}`;
+        }
+
+        function playListening(no) {
+            let text = listeningScript[no];
+            if (!text) return;
+            let utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'zh-CN';
+            utterance.rate = 0.9;
+            speechSynthesis.cancel();
+            speechSynthesis.speak(utterance);
+        }
+
+        function selectOption(no, val) {
+            userAnswers[no] = val;
+            let radios = document.querySelectorAll(`input[name="q${no}"]`);
+            radios.forEach(r => { if (r.value === val) r.checked = true; });
+        }
+
+        function submitAll() {
+            clearInterval(timerInterval);
+            let listeningBenar = 0, readingBenar = 0;
+            for (let i = 1; i <= 20; i++) {
+                let jawab = userAnswers[i];
+                if (jawab && jawab === listeningJawaban[i]) listeningBenar++;
+            }
+            for (let i = 21; i <= 50; i++) {
+                let jawab = userAnswers[i];
+                if (!jawab) continue;
+                let kunci = readingJawaban[i];
+                if (i >= 36 && i <= 40) {
+                    if (normalisasiKalimat(jawab) === normalisasiKalimat(kunci)) readingBenar++;
+                } else if (i >= 41 && i <= 45) {
+                    if (jawab.trim() === kunci) readingBenar++;
+                } else {
+                    if (jawab === kunci) readingBenar++;
+                }
+            }
+            let totalBenar = listeningBenar + readingBenar;
+            let persen = (totalBenar / 50 * 100).toFixed(2);
+            let status = persen >= 85 ? '✅ 及格 (通过)' : '❌ 不及格';
+            let laporanHtml = `
+                <h2>📊 成绩单</h2>
+                <p>🎧 听力: ${listeningBenar}/20 正确</p>
+                <p>📖 阅读: ${readingBenar}/30 正确</p>
+                <p>总正确: ${totalBenar}/50 (${persen}%)</p>
+                <p>${status}</p>
+                <div class="footer">
+                    <button class="btn-review" onclick="reviewAll()">🔍 检查所有答案 (红错绿对)</button>
+                </div>
+            `;
+            document.getElementById('laporanArea').innerHTML = laporanHtml;
+            document.getElementById('laporanArea').style.display = 'block';
+        }
+
+        function reviewAll() {
+            // Hapus highlight sebelumnya
+            document.querySelectorAll('.soal-card').forEach(c => {
+                c.classList.remove('wrong-highlight', 'correct-highlight');
+            });
+            // Loop semua soal 1-50
+            for (let i = 1; i <= 50; i++) {
+                let jawab = userAnswers[i];
+                let kunci = (i <= 20) ? listeningJawaban[i] : readingJawaban[i];
+                let benar = false;
+                if (jawab) {
+                    if (i >= 36 && i <= 40) {
+                        if (normalisasiKalimat(jawab) === normalisasiKalimat(kunci)) benar = true;
+                    } else if (i >= 41 && i <= 45) {
+                        if (jawab.trim() === kunci) benar = true;
+                    } else {
+                        if (jawab === kunci) benar = true;
+                    }
+                }
+                let el = document.getElementById(`soal-${i}`);
+                if (el) {
+                    if (benar) {
+                        el.classList.add('correct-highlight');
+                    } else {
+                        el.classList.add('wrong-highlight');
+                    }
+                }
+            }
+        }
+
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                document.getElementById('timerDisplay').textContent = '00:00';
+                alert('时间到！请提交答案。');
+                return;
+            }
+            timeLeft--;
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            document.getElementById('timerDisplay').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function switchTab(tab) {
+            document.getElementById('tabListening').classList.toggle('active', tab === 'listening');
+            document.getElementById('tabReading').classList.toggle('active', tab === 'reading');
+            document.getElementById('listeningPanel').style.display = tab === 'listening' ? 'block' : 'none';
+            document.getElementById('readingPanel').style.display = tab === 'reading' ? 'block' : 'none';
+        }
+
+        window.startApp = function() {
+            let nameInput = document.getElementById('userNameInput').value.trim();
+            if (nameInput === '') {
+                alert('请输入您的名字！');
+                return;
+            }
+            userName = nameInput;
+            document.getElementById('identityOverlay').style.display = 'none';
+            // Inisialisasi urutan acak
+            initShuffledOrders();
+            // Render ulang
+            renderListening();
+            renderReading();
+            startTimer();
+        };
+
+        // Ekspose fungsi global
+        window.switchTab = switchTab;
+        window.selectOption = selectOption;
+        window.playListening = playListening;
+        window.submitAll = submitAll;
+        window.reviewAll = reviewAll;
+    })();
+</script>
+</body>
+</html>
